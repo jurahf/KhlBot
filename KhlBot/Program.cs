@@ -1,4 +1,5 @@
 using KhlBot.Logic;
+using KhlBot.Model;
 
 namespace KhlBot
 {
@@ -15,8 +16,11 @@ namespace KhlBot
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.Configure<TelegramConfig>(builder.Configuration.GetSection("TelegramSettings"));
+
             builder.Services.AddScoped<ICalendarHtmlProvider, KhlRuCalendarHtmlProvider>();
             builder.Services.AddScoped<ICalendarHtmlParser, KhlRuCalendarHtmlParser>();
+            builder.Services.AddScoped<ITelegramSender, TelegramSender>();
 
             var app = builder.Build();
 

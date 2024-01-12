@@ -11,11 +11,13 @@ namespace KhlBot.Controllers
     {
         private readonly ICalendarHtmlProvider calendarHtmlProvider;
         private readonly ICalendarHtmlParser htmlParser;
+        private readonly ITelegramSender sender;
 
-        public TestController(ICalendarHtmlProvider calendarHtmlProvider, ICalendarHtmlParser htmlParser)
+        public TestController(ICalendarHtmlProvider calendarHtmlProvider, ICalendarHtmlParser htmlParser, ITelegramSender sender)
         {
             this.calendarHtmlProvider = calendarHtmlProvider;
             this.htmlParser = htmlParser;
+            this.sender = sender;   
         }
 
 
@@ -39,6 +41,14 @@ namespace KhlBot.Controllers
             List<MatchInfo> matches = htmlParser.ParseMatches(html, date);
 
             return new JsonResult(matches);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendTextToChannel([FromQuery] string text)
+        {
+            await sender.SendText(text);
+
+            return Ok();
         }
     }
 }
