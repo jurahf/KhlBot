@@ -4,6 +4,6 @@ namespace KhlBot.Logic
 {
     public interface ICalendarHtmlParser
     {
-        List<MatchInfo> ParseMatches(string html);
+        List<MatchInfo> ParseMatches(string html, DateTime date);
     }
 }
